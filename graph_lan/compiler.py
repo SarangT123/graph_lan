@@ -7,6 +7,9 @@ available_graphs = [
     "AREA",
     "HISTOGRAM",
 ]
+XY = ["LINE", "BAR", "SCATTER", "AREA", "HISTOGRAM"]
+
+OTH = ["PIE"]
 
 
 class run():
@@ -22,10 +25,16 @@ class run():
             i = i.split(":")
             print()
             if i[0] == "GRAPH":
-                self.draw(tokens, i[1])
+                if i[1] in XY:
+                    self.draw_xy(tokens, i[1])
+                elif i[1] in OTH:
+                    self.draw_pie(tokens, i[1])
 
-    def draw(self, tokens, graph):
+    def draw_xy(self, tokens, graph):
         token = tokens
+        title = ""
+        x_axis = ""
+        y_axis = ""
         for i in range(len(token)):
             token[i] = tokens[i].replace("\n", "")
         for i in tokens:
@@ -58,6 +67,51 @@ except:
         pip.main(['install', "matplotlib"])
 
 plt.{graph.lower()}({data[0]}, {data[1]})
+plt.title('{title}')
+plt.xlabel('{x_axis}')
+plt.ylabel('{y_axis}')
+plt.show()
+"""
+        with open("compiled.py", "w") as f:
+            f.write(compiled_to_python_code)
+
+    def draw_pie(self, tokens, graph):
+        token = tokens
+        title = ""
+        x_axis = ""
+        y_axis = ""
+        for i in range(len(token)):
+            token[i] = tokens[i].replace("\n", "")
+        for i in tokens:
+            ii = i.split(":")
+            if ii[0] == "DATA":
+                j = ii[1].split(",")
+                keys = []
+                values = []
+                j.pop(len(j) - 1)
+                for kk in range(len(j)):
+
+                    keys.append(j[kk].split("-")[0])
+                    values.append(int(j[kk].split("-")[1]))
+                if len(keys) != len(values):
+                    print("Error: Data not in correct format")
+                    return ValueError
+                data = [keys, values]
+
+            if i.split(":")[0] == "TITLE":
+                title = i.split(":")[1]
+            if i.split(":")[0] == "XL":
+                x_axis = i.split(":")[1]
+            if i.split(":")[0] == "YL":
+                y_axis = i.split(":")[1]
+
+        compiled_to_python_code = f"""try:
+    from matplotlib import pyplot as plt
+except:
+    if __name__ == "__main__":
+        pip.main(['install', "matplotlib"])
+
+plt.{graph.lower()}({data[1]}, labels={data[0]})
 plt.title('{title}')
 plt.xlabel('{x_axis}')
 plt.ylabel('{y_axis}')

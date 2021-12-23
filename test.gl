@@ -1,8 +1,11 @@
-GRAPH:BAR;
+GRAPH:PIE;
 DATA:
-Guy-100,
-girl-50,
+python-70,
+js-20,
+java-5,
+cpp-2,
+others-3,
 ;
+TITLE:COOL;
 XL:X axis label;
 YL:Y axis label;
-TITLE:COOL;
