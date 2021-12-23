@@ -1,0 +1,8 @@
+GRAPH:BAR;
+DATA:
+Guy-100,
+girl-50,
+;
+XL:X axis label;
+YL:Y axis label;
+TITLE:COOL;

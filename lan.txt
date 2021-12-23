@@ -1,0 +1,9 @@
+GRAPH NAME;
+DATA:
+    LABEL-VALUE,
+    LABEL-VALUE,
+    LABEL-VALUE,
+;
+XL:X axis label;
+YL:Y axis label;
+TITLE:COOL;
